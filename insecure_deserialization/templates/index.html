@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The Canopic Jars</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <!-- Egen CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <style>
+        body {
+            background-image: url("/static/images/jar.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        /* 📜 Mystisk glow-effekt för knappen */
+        .glowing-button {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 1.5em;
+            border-radius: 5px;
+            background: darkgoldenrod;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 0 5px goldenrod;
+            animation: glow 1.5s infinite alternate ease-in-out;
+            transition: transform 0.2s;
+        }
+
+        .glowing-button:hover {
+            background: goldenrod;
+            transform: scale(1.05);
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px goldenrod;
+            }
+            to {
+                box-shadow: 0 0 20px gold, 0 0 30px rgba(255, 215, 0, 0.6);
+            }
+        }
+
+        /* ✨ Fade-in effekt vid sidladdning */
+        body.fade-in {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="text-center p-5 rounded shadow-lg" style="background: rgba(36, 24, 12, 0.9); color: gold; border: 4px solid goldenrod; max-width: 600px;">
+            
+            <h1 class="mb-4">🏺 The Canopic Jars of Osiris</h1>
+            
+            <p class="lead"><i>"Only those who understand the whispers of the past may claim the treasures of the gods..."</i></p>
+            
+            <p>Deep within the **Temple of Osiris**, hidden behind towering sandstone pillars, the **Canopic Jars** rest in their sacred chamber.</p>
+            
+            <p>They hold not just the remains of the ancient rulers, but also **secrets of great power**—secrets only decipherable by those who dare to manipulate the very fabric of the past.</p>
+            
+            <p>Beware, for those who fail will be **forever lost in the echoes of eternity**...</p>
+            
+            <a href="/canopic_jar" class="glowing-button mt-3">🔑 Enter the Chamber</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Eget JavaScript -->
+    <script>
+        // 🌟 Fade-in effekt när sidan laddas
+        document.addEventListener("DOMContentLoaded", function() {
+            document.body.classList.add("fade-in");
+        });
+    </script>
+</body>
+</html>
