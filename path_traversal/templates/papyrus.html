@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Papyrus Chamber</title>
+    
+    <!-- Bootstrap & CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+
+    <style>
+        body {
+            background-image: url("/static/images/papyrus_chamber.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .container-custom {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.9);
+            border: 4px solid goldenrod;
+            color: white;
+            max-width: 600px;
+        }
+
+        .mystic-text {
+            font-style: italic;
+            text-shadow: 2px 2px 8px black;
+        }
+
+        .glowing-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 8px;
+            background: goldenrod;
+            color: black;
+            border: 2px solid gold;
+            box-shadow: 0 0 15px rgba(255, 223, 0, 0.8);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .glowing-button:hover {
+            background: gold;
+            box-shadow: 0 0 25px rgba(255, 223, 0, 1);
+        }
+
+        .error-message {
+            color: crimson;
+            font-weight: bold;
+            background: rgba(139, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid red;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="container-custom text-center">
+            <h1 class="display-5">📜 The Papyrus Chamber</h1>
+            <p class="mystic-text"><i>"The scribes of the Pharaoh documented all things, but only the worthy may read them..."</i></p>
+
+            <p>Deep beneath the temple, hidden scrolls record the Pharaoh’s most guarded knowledge.</p>
+
+            <p>But beware... some scrolls are meant to **mislead the unworthy**.</p>
+
+            <!-- 🔍 Input & Submit -->
+            <form action="/papyrus" method="post" class="mt-4">
+                <div class="mb-3">
+                    <label for="file" class="form-label">🔑 Search the archives:</label>
+                    <input type="text" class="form-control shadow-sm border-warning bg-dark text-light" id="file" name="file" placeholder="Enter a path...">
+                </div>
+                <button type="submit" class="btn glowing-button">Search</button>
+            </form>
+
+            <!-- Hint -->
+            <a href="/papyrus?hint=true" class="btn hint-btn mt-3">🕵️ Need a hint?</a>
+
+            {% if hint %}
+                <h2 class="mt-4 text-warning">🕵️ HINT</h2>
+                <p class="alert alert-warning">{{ hint }}</p>
+            {% endif %}
+
+            {% if content %}
+                <h2 class="mt-4">📜 Ancient Scroll Discovered</h2>
+                <pre class="p-3 bg-dark text-success rounded">{{ content }}</pre>
+            {% endif %}
+
+            {% if flag %}
+                <h2 class="mt-4 text-success">🏆 You have uncovered a hidden truth!</h2>
+                <strong class="text-warning display-6">{{ flag }}</strong>
+            {% endif %}
+
+            {% if error %}
+                <h2 class="mt-4 text-danger">❌ A Dark Curse Has Been Unleashed!</h2>
+                <p class="error-message">{{ error }}</p>
+            {% endif %}
+
+            <!-- Back button -->
+            <a href="/" class="btn btn-secondary mt-3">🏺 Return to the Temple</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

