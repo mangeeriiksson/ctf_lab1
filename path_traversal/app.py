@@ -1,12 +1,12 @@
-from flask import Flask, request, render_template, session
+from flask import Flask, request, render_template
 import os
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 app.secret_key = "indiana_jones_secret"
 
-BASE_DIR = "/var/www/html"
-FALSE_FLAGS_DIR = os.path.join(BASE_DIR, "flags")  # 🎭 Här ligger falska flaggor
-TRUE_FLAGS_DIR = "/root/flags"  # 🔥 Den riktiga flaggan finns här!
+BASE_DIR = "/"  # Gör att användaren kan navigera från root
+FAKE_FLAGS_DIR = "/var/www/html/flags"
+SECURE_FLAG_PATH = "/root/flags/true_flag.txt"
 
 @app.route("/")
 def index():
@@ -17,46 +17,42 @@ def papyrus():
     requested_file = request.form.get("file", "") if request.method == "POST" else request.args.get("file", "")
 
     if not requested_file:
-        return render_template("papyrus.html", hint="Seek the hidden scrolls...", file_list=None, flag=None)
+        return render_template("papyrus.html", file_list=None, flag=None)
 
-    file_path = os.path.normpath(os.path.join(BASE_DIR, requested_file))
+    # Path traversal från root istället för /var/www/html
+    file_path = os.path.abspath(os.path.join("/", requested_file))
 
-    # 🎭 Om spelaren listar /flags först, de hittar endast falska flaggor
+    # 🔍 Logga sökvägen som spelaren försöker nå
+    print(f"🔍 Requested path: {file_path}")
+
+    # Om det är en katalog, lista innehållet
     if os.path.isdir(file_path):
         try:
             files = os.listdir(file_path)
-            hint = "📂 These scrolls are part of the Pharaoh's archives..."
-            if "fake_scroll_1.txt" in files:
-                hint += " Perhaps reading 'fake_scroll_1.txt' will reveal the way?"
+            file_links = [f"<a href='/papyrus?file={requested_file}/{file}'>{file}</a>" for file in files]
+            hint = f"📂 Contents:<br>{'<br>'.join(file_links)}"
             return render_template("papyrus.html", hint=hint, file_list=files, flag=None)
+
+        except PermissionError:
+            return render_template("papyrus.html", hint="🚫 You don't have permission to access this directory.", file_list=None, flag=None)
+
         except Exception as e:
-            return render_template("papyrus.html", hint=f"Error listing directory: {e}", file_list=None, flag=None)
+            return render_template("papyrus.html", hint=f"❌ Error listing directory: {e}", file_list=None, flag=None)
 
     try:
+        # Läs filens innehåll
         with open(file_path, "r") as f:
             content = f.read().strip()
-        
-        flag = None
-
-        # 🎭 Om spelaren läser en falsk flagga → Aktivera GUDARNAS VREDE!
-        if "fake_scroll" in file_path:
-            return render_template(
-                "papyrus.html", 
-                content="⚡ THE GODS ARE DISPLEASED! ⚡",
-                hint="📜 A dark presence fills the air... You feel a powerful force rejecting your actions...",
-                flag=None
-            )
-
-        # 🔥 Om spelaren hittar den riktiga flaggan i /root/flags
-        if os.path.abspath(file_path) == os.path.join(TRUE_FLAGS_DIR, "ancient_scroll.txt"):
-            flag = "O24{the_true_treasure_is_buried_deep}"
-
-        return render_template("papyrus.html", content=content, flag=flag)
+        return render_template("papyrus.html", content=content, flag=None)
 
     except FileNotFoundError:
-        return render_template("papyrus.html", hint="📜 The scroll is missing...", flag=None)
+        return render_template("papyrus.html", hint="📜 The file is missing...", flag=None)
+    except IsADirectoryError:
+        return render_template("papyrus.html", hint="📂 This is a directory. Try listing its contents.", flag=None)
+    except PermissionError:
+        return render_template("papyrus.html", hint="🚫 You don't have permission to access this file.", flag=None)
     except Exception as e:
-        return render_template("papyrus.html", hint=f"Error: {e}", flag=None)
+        return render_template("papyrus.html", hint=f"❌ Error: {e}", flag=None)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

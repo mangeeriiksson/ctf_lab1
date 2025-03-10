@@ -1,12 +1,28 @@
-
 FROM python:3.9
+
+# Skapa nödvändiga kataloger
+RUN mkdir -p /var/www/html/flags \
+    && mkdir -p /var/www/html/static \
+    && mkdir -p /var/www/html/templates \
+    && mkdir -p /root/flags  # ✅ Skapar katalogen innan vi skriver filen
+
 WORKDIR /var/www/html
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-RUN mkdir -p /var/www/html/templates /var/www/html/static/papyrus /var/www/html/flags /root/flags
-COPY . /var/www/html
-RUN echo "O24{you_have_been_tricked_by_the_pharaoh}" > /var/www/html/flags/fake_scroll_1.txt
-RUN echo "O24{this_is_not_the_flag_you_seek}" > /var/www/html/flags/fake_scroll_2.txt
-RUN echo "O24{the_true_treasure_is_buried_deep}" > /root/flags/ancient_scroll.txt
-RUN chmod -R 755 /var/www/html /root/flags
-CMD ["python", "app.py"]
+
+# Kopiera requirements.txt FÖRST för att undvika onödiga ombyggnader
+COPY requirements.txt /var/www/html/
+
+# Installera Python-paket
+RUN pip install --no-cache-dir -r /var/www/html/requirements.txt
+
+# Kopiera resterande filer
+COPY app.py /var/www/html/
+COPY templates/ /var/www/html/templates/
+COPY static/ /var/www/html/static/
+COPY flags/ /var/www/html/flags/
+
+# ✅ Skapa den riktiga flaggan nu när /root/flags garanterat existerar
+RUN echo "O24{pharaohs_secret_tomb_uncovered}" > /root/flags/true_flag.txt
+
+EXPOSE 5000
+
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]

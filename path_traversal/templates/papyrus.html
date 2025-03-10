@@ -4,32 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Papyrus Chamber</title>
-    
+
     <!-- Bootstrap & CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/style.css">
 
     <style>
         body {
-            background-image: url("/static/images/papyrus_chamber.jpg");
+            background: url("{{ url_for('static', filename='images/temple.jpg') }}") no-repeat center center fixed;
             background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            font-family: 'Cinzel', serif;
         }
 
         .container-custom {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(255, 215, 0, 0.9);
             border: 4px solid goldenrod;
             color: white;
-            max-width: 600px;
-        }
-
-        .mystic-text {
-            font-style: italic;
-            text-shadow: 2px 2px 8px black;
+            max-width: 700px;
         }
 
         .glowing-button {
@@ -51,6 +45,37 @@
             box-shadow: 0 0 25px rgba(255, 223, 0, 1);
         }
 
+        .file-list {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            text-align: left;
+        }
+
+        .file-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .file-list li {
+            padding: 4px 8px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.5);
+        }
+
+        .file-list .directory {
+            color: lightblue;
+            font-weight: bold;
+        }
+
+        .file-list .file {
+            color: lightgray;
+        }
+
         .error-message {
             color: crimson;
             font-weight: bold;
@@ -60,18 +85,15 @@
             border: 2px solid red;
             box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
         }
-
     </style>
 </head>
 <body>
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="container-custom text-center">
             <h1 class="display-5">📜 The Papyrus Chamber</h1>
-            <p class="mystic-text"><i>"The scribes of the Pharaoh documented all things, but only the worthy may read them..."</i></p>
+            <p class="mystic-text"><i>"The Pharaoh’s archives hold secrets beyond imagination..."</i></p>
 
-            <p>Deep beneath the temple, hidden scrolls record the Pharaoh’s most guarded knowledge.</p>
-
-            <p>But beware... some scrolls are meant to **mislead the unworthy**.</p>
+            <p>🔎 Enter a path below to explore hidden scrolls.</p>
 
             <!-- 🔍 Input & Submit -->
             <form action="/papyrus" method="post" class="mt-4">
@@ -82,24 +104,35 @@
                 <button type="submit" class="btn glowing-button">Search</button>
             </form>
 
-            <!-- Hint -->
-            <a href="/papyrus?hint=true" class="btn hint-btn mt-3">🕵️ Need a hint?</a>
-
-            {% if hint %}
-                <h2 class="mt-4 text-warning">🕵️ HINT</h2>
-                <p class="alert alert-warning">{{ hint }}</p>
+            <!-- 📂 LISTA AV FILER & MAPPAR -->
+            {% if file_list %}
+                <div class="file-list mt-4 p-3">
+                    <strong>📂 Directory Listing:</strong>
+                    <ul>
+                        {% for file in file_list %}
+                            {% if file.endswith("/") %}
+                                <li class="directory">📁 {{ file }}</li>
+                            {% else %}
+                                <li class="file">📜 {{ file }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
             {% endif %}
 
+            <!-- 📜 Om en fil har öppnats -->
             {% if content %}
                 <h2 class="mt-4">📜 Ancient Scroll Discovered</h2>
                 <pre class="p-3 bg-dark text-success rounded">{{ content }}</pre>
             {% endif %}
 
+            <!-- 🏆 Om spelaren hittar flaggan -->
             {% if flag %}
                 <h2 class="mt-4 text-success">🏆 You have uncovered a hidden truth!</h2>
                 <strong class="text-warning display-6">{{ flag }}</strong>
             {% endif %}
 
+            <!-- ❌ Felmeddelanden -->
             {% if error %}
                 <h2 class="mt-4 text-danger">❌ A Dark Curse Has Been Unleashed!</h2>
                 <p class="error-message">{{ error }}</p>

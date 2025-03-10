@@ -1,6 +1,13 @@
-version: "3.8"
+version: '3.8'
+
 services:
-  path_traversal_lab:
+  path_traversal:
     build: .
+    container_name: path_traversal
     ports:
       - "5000:5000"
+    volumes:
+      - ./flags:/var/www/html/flags
+      - ./static:/var/www/html/static
+      - ./templates:/var/www/html/templates  # 🛠 Lägger till templates
+    restart: always

@@ -23,34 +23,26 @@ def index():
 def canopic_jar():
     result = None
     hint = None
-
+    
     if request.method == "POST":
         serialized_data = request.form.get("jar", "")
         try:
             decoded_data = base64.b64decode(serialized_data)
             deserialized_object = pickle.loads(decoded_data)
-
+            
             # Om objektet innehåller "get_flag", visa flaggan istället för objektet
             if "get_flag" in str(deserialized_object):
                 with open(FLAG_FILE, "r") as f:
                     result = f.read().strip()
             else:
-                result = f"📜 The Jars Speak... {deserialized_object}"
+                result = f"Deserialized object: {deserialized_object}"
         
         except Exception as e:
-            result = f"⚠️ Error processing the offering: {e}"
-
-    # 🔍 Hint-system
+            result = f"Error processing the offering: {e}"
+    
     if request.args.get("hint"):
-        hint = """🏺 Deep within the crypts of Osiris, the scribes of old sealed their secrets inside objects of power. 
-        Only those who can forge an artifact of their own shall gain the favor of the gods.
-
-        The priests whisper of a forgotten art—binding knowledge within an offering. 
-        One must inscribe the right symbols in the language of the mystics... then encode it in the sacred script before presenting it to the jar.
-
-        Could it be that the answer lies within the very foundation of this world... 
-        a construct shaped by those who call upon the power of 'pickle'?"""
-
+        hint = "Some objects hold great power... Try creating a special object in Python and serializing it."
+    
     return render_template("canopic_jar.html", result=result, hint=hint)
 
 if __name__ == "__main__":
