@@ -5,7 +5,7 @@ services:
     build: .
     container_name: os_command_injection
     ports:
-      - "5000:5000"
+      - "5001:5001"
     volumes:
       - ./flags:/app/flags
       - ./templates:/app/templates

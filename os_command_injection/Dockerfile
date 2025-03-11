@@ -17,7 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN mkdir -p /app/flags && echo "O24{command_of_the_pharaoh}" > /app/flags/sacred_command.txt
 
 # Exponera Flask-porten
-EXPOSE 5000
+EXPOSE 5001
 
 # Starta Flask-applikationen
 CMD ["python", "app.py"]
