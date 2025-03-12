@@ -9,5 +9,6 @@ services:
     volumes:
       - ./flags:/var/www/html/flags
       - ./static:/var/www/html/static
-      - ./templates:/var/www/html/templates  # 🛠 Lägger till templates
+      - ./templates:/var/www/html/templates
+      - ./true_flag:/root/flags  # ✅ Volym för den riktiga flaggan
     restart: always
