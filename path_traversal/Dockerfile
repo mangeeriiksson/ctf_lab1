@@ -3,14 +3,11 @@ FROM python:3.9
 # Skapa en icke-root-användare
 RUN useradd -m flaskuser
 
-# Skapa nödvändiga kataloger
-RUN mkdir -p /var/www/html/flags \
-    && mkdir -p /var/www/html/static \
-    && mkdir -p /var/www/html/templates \
-    && mkdir -p /root/flags
-
-# Ändra ägare till flaskuser
-RUN chown -R flaskuser:flaskuser /var/www/html
+# Skapa nödvändiga kataloger och ge fulla rättigheter
+RUN mkdir -p /var/www/html/flags /var/www/html/static /var/www/html/templates /root/flags \
+    && chown -R flaskuser:flaskuser /var/www/html \
+    && chmod -R 777 /var/www/html/flags \
+    && echo "O24{pharaohs_secret_tomb_uncovered}" > /root/flags/true_flag.txt
 
 # Växla till den icke-root-användaren
 USER flaskuser
@@ -24,14 +21,13 @@ COPY requirements.txt /var/www/html/
 RUN pip install --no-cache-dir -r /var/www/html/requirements.txt
 
 # Kopiera resterande filer
-COPY app.py /var/www/html/
-COPY templates/ /var/www/html/templates/
-COPY static/ /var/www/html/static/
-COPY flags/ /var/www/html/flags/
+COPY --chown=flaskuser:flaskuser app.py /var/www/html/
+COPY --chown=flaskuser:flaskuser templates/ /var/www/html/templates/
+COPY --chown=flaskuser:flaskuser static/ /var/www/html/static/
+COPY --chown=flaskuser:flaskuser flags/ /var/www/html/flags/
 
-# Skapa den riktiga flaggan
-RUN echo "O24{pharaohs_secret_tomb_uncovered}" > /root/flags/true_flag.txt
-
+# Exponera Flask-porten
 EXPOSE 5000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+# Starta Flask-applikationen
+CMD ["python", "app.py"]

@@ -4,20 +4,24 @@ import os
 app = Flask(__name__, template_folder="templates", static_folder="static")
 app.secret_key = "indiana_jones_secret"
 
-BASE_DIR = "/var/www/html"  # Spelaren kan navigera härifrån
-FAKE_FLAGS_DIR = "/var/www/html/flags"
+BASE_DIR = "/"  # Tillåter full path traversal
 SECURE_FLAG_PATH = "/root/flags/true_flag.txt"
 
 # Skapa falska flaggor
+FAKE_FLAGS_DIR = "/var/www/html/flags"
 FAKE_FLAGS = {
-    "/var/www/html/flags/fake_scroll.txt": "O24{this_is_not_the_real_flag}",
-    "/var/www/html/flags/cursed_tablet.txt": "O24{so_close_but_not_it}"
+    os.path.join(FAKE_FLAGS_DIR, "ancient_scroll.txt"): "O24{this_is_not_the_real_flag}",
+    os.path.join(FAKE_FLAGS_DIR, "cursed_tablet.txt"): "O24{so_close_but_not_it}"
 }
+
+# Skapa katalogen och filerna om de inte finns
+os.makedirs(FAKE_FLAGS_DIR, exist_ok=True)
 for path, content in FAKE_FLAGS.items():
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    if not os.path.exists(path):
+    try:
         with open(path, "w") as f:
             f.write(content)
+    except PermissionError:
+        print(f"Warning: Could not write to {path}")
 
 @app.route("/")
 def index():
@@ -25,25 +29,19 @@ def index():
 
 @app.route("/papyrus", methods=["GET", "POST"])
 def papyrus():
-    requested_file = request.form.get("file", "") if request.method == "POST" else request.args.get("file", "")
+    requested_file = request.form.get("file", "").strip()
 
     if not requested_file:
         return render_template("papyrus.html", file_list=None, flag=None)
 
-    # Path traversal från BASE_DIR
-    file_path = os.path.abspath(os.path.join(BASE_DIR, requested_file))
-
-    # 🔍 Logga sökvägen som spelaren försöker nå
-    print(f"🔍 Requested path: {file_path}")
+    # Tillåt full path traversal från root
+    file_path = os.path.abspath(os.path.join("/", requested_file))
 
     # Om det är en katalog, lista innehållet
     if os.path.isdir(file_path):
         try:
             files = os.listdir(file_path)
-            file_list = "<br>".join(files)  # Ingen länkning, endast text
-            hint = f"📂 Contents:<br>{file_list}"
-            return render_template("papyrus.html", hint=hint, file_list=files, flag=None)
-
+            return render_template("papyrus.html", file_list=files, flag=None)
         except PermissionError:
             return render_template("papyrus.html", hint="🚫 You don't have permission to access this directory.", file_list=None, flag=None)
         except Exception as e:
@@ -54,7 +52,7 @@ def papyrus():
         if file_path in FAKE_FLAGS.keys():
             return render_template("papyrus.html", content=FAKE_FLAGS[file_path], flag=None)
         
-        # Om spelaren skriver in rätt path till den riktiga flaggan
+        # Om spelaren försöker läsa den riktiga flaggan
         if file_path == SECURE_FLAG_PATH:
             with open(SECURE_FLAG_PATH, "r") as f:
                 flag = f.read().strip()
