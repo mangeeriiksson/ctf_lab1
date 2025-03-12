@@ -31,34 +31,6 @@
             max-width: 800px;
         }
 
-        .hint-btn {
-            font-size: 1.2em;
-            padding: 12px 20px;
-            background: darkred;
-            color: white;
-            border: 2px solid gold;
-            border-radius: 5px;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-        }
-
-        .hint-btn:hover {
-            background: crimson;
-            box-shadow: 0 0 20px rgba(255, 255, 0, 0.9);
-            transform: scale(1.1);
-        }
-
-        #hint-box {
-            display: none;
-            background: rgba(255, 223, 0, 0.9);
-            color: black;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: bold;
-            border: 2px solid darkgoldenrod;
-            margin-top: 15px;
-        }
-
         .glowing-button {
             font-size: 1.2em;
             padding: 12px 25px;
@@ -96,34 +68,14 @@
                 <button type="submit" class="btn btn-lg glowing-button">Invoke</button>
             </form>
 
-            <!-- Hint-knapp -->
-            <button class="hint-btn mt-3" onclick="showHint()">🕵️ Need a hint?</button>
-
-            <!-- Hint-box -->
-            <div id="hint-box">
-                <h2>🕵️ HINT</h2>
-                <p>The gods only reveal secrets to those who **list their knowledge first...**</p>
-            </div>
-
             <!-- Resultat -->
             {% if result %}
-                <h2 class="mt-4">📜 The Voice of the Gods Speaks...</h2>
-                <pre class="p-3 bg-dark text-success rounded">{{ result }}</pre>
-            {% endif %}
-
-            {% if flag %}
-                <h2 class="mt-4 text-success">🏆 You have uncovered an ancient power!</h2>
-                <strong class="text-warning display-6">{{ flag }}</strong>
+                <pre class="p-3 bg-dark text-success rounded mt-4">{{ result }}</pre>
             {% endif %}
         </div>
     </div>
 
     <!-- Bootstrap & Custom Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function showHint() {
-            document.getElementById("hint-box").style.display = "block";
-        }
-    </script>
 </body>
 </html>
