@@ -3,18 +3,17 @@ FROM python:3.9
 # Skapa en icke-root-användare
 RUN useradd -m flaskuser
 
-# Skapa nödvändiga kataloger och ge fulla rättigheter
-RUN mkdir -p /var/www/html/flags /var/www/html/static /var/www/html/templates /root/flags \
+# Skapa nödvändiga kataloger och sätt rättigheter
+RUN mkdir -p /var/www/html/flags /var/www/html/static /var/www/html/templates \
     && chown -R flaskuser:flaskuser /var/www/html \
-    && chmod -R 777 /var/www/html/flags \
-    && echo "O24{pharaohs_secret_tomb_uncovered}" > /root/flags/true_flag.txt
+    && chmod -R 777 /var/www/html/flags
 
 # Växla till den icke-root-användaren
 USER flaskuser
 
 WORKDIR /var/www/html
 
-# Kopiera requirements.txt FÖRST för att undvika onödiga ombyggnader
+# Kopiera requirements.txt först för att undvika onödiga ombyggnader
 COPY requirements.txt /var/www/html/
 
 # Installera Python-paket
