@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pharaoh's Secret Chamber</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        body {
+            background-image: url("/static/images/temple.jpg");
+            background-size: cover;
+            background-position: center;
+            font-family: 'Cinzel', serif;
+            color: gold;
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .container {
+            background: rgba(36, 24, 12, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+            border: 4px solid goldenrod;
+            max-width: 600px;
+            margin: 100px auto;
+        }
+        .flag {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: limegreen;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            word-break: break-word;
+        }
+        .warning {
+            font-size: 1.2em;
+            font-style: italic;
+            color: darkred;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .text-success {
+            color: limegreen;
+            text-shadow: 0 0 10px lime;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔐 Pharaoh's Secret Chamber 🔐</h1>
+    <div class="container">
+        {% if flag %}
+            <h2 class="text-success">🏆 You have unlocked the hidden secrets of the Pharaoh! 🏆</h2>
+            <p>Hieroglyphs glow around the chamber, revealing an ancient secret long forgotten...</p>
+            <p class="flag">{{ flag }}</p>
+        {% else %}
+            <p class="warning">⚠️ The chamber remains sealed. Only the worthy may enter.</p>
+            <p>Perhaps there's another way to convince the spirits of your worthiness?</p>
+        {% endif %}
+    </div>
+</body>
+</html>
