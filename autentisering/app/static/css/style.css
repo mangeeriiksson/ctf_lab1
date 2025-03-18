@@ -1,0 +1,112 @@
+/* 🌑 Mysterious Egyptian Theme */
+body {
+    background: url('/static/images/egyptian-bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Cinzel', serif;
+    color: white;
+    text-align: center;
+}
+
+/* 🔥 Challenge Container */
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px gold;
+    border: 3px solid gold;
+}
+
+/* 🎭 Titles */
+h1 {
+    font-size: 3em;
+    color: gold;
+    text-shadow: 3px 3px 10px rgba(255, 215, 0, 0.9);
+}
+
+h2 {
+    font-size: 2em;
+    color: #FFD700;
+    margin-top: 20px;
+}
+
+/* 🏺 Hieroglyphs */
+.hieroglyphs {
+    font-size: 2em;
+    color: gold;
+    text-shadow: 0px 0px 8px gold;
+    margin-bottom: 10px;
+}
+
+/* ✍️ Input Fields */
+input {
+    width: 80%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid gold;
+    background: rgba(255, 215, 0, 0.1);
+    color: white;
+    font-size: 1.2em;
+    text-align: center;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #FFD700;
+    box-shadow: 0px 0px 10px #FFD700;
+}
+
+/* 🕹️ Buttons */
+button {
+    padding: 12px 25px;
+    margin-top: 10px;
+    font-size: 1.3em;
+    background: gold;
+    border: none;
+    color: black;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.2s, background 0.3s;
+}
+
+button:hover {
+    background: darkgoldenrod;
+    transform: scale(1.1);
+}
+
+/* 🏺 Error Messages */
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+/* 🎭 Flag Result */
+.result {
+    font-size: 1.3em;
+    margin-top: 10px;
+}
+
+/* 🔥 The Curse Effect */
+@keyframes shake {
+    0% { transform: translate(2px, 2px); }
+    25% { transform: translate(-2px, -2px); }
+    50% { transform: translate(2px, -2px); }
+    75% { transform: translate(-2px, 2px); }
+    100% { transform: translate(2px, 2px); }
+}
+
+.curse {
+    animation: shake 0.2s infinite alternate;
+}
+
+/* ✨ Glowing Text */
+@keyframes glow {
+    0% { text-shadow: 0px 0px 5px gold; }
+    100% { text-shadow: 0px 0px 15px gold; }
+}
+
+.glowing {
+    animation: glow 1.5s infinite alternate;
+}

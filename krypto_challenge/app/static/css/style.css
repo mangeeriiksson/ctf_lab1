@@ -1,28 +1,108 @@
+/* 🌌 Bakgrund - Hackers' Vault */
 body {
-    font-family: Arial, sans-serif;
+    background: #000;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
     text-align: center;
-    margin: 50px;
-    background-color: #121212;
-    color: #f8f8f8;
+    padding: 20px;
+    overflow: hidden; /* Döljer ev. scroll */
 }
 
+/* 🏴 Container med en pulserande glow-effekt */
 .container {
+    background: rgba(0, 0, 0, 0.85);
     padding: 20px;
     border-radius: 10px;
-    background-color: #1e1e1e;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
     display: inline-block;
+    animation: pulseGlow 2s infinite alternate;
 }
 
+/* ✨ Glitch-effekt på rubriken */
+h1 {
+    font-size: 2.5em;
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #008000;
+    animation: glitch 1.5s infinite;
+}
+
+/* 🔥 Blinkande text för extra hacker-stämning */
+@keyframes blink {
+    50% { opacity: 0; }
+}
+.blinking {
+    animation: blink 1s infinite;
+}
+
+/* 🕵️‍♂️ Dold hint som blir synlig vid hover */
+.hidden-hint {
+    background: black;
+    color: lime;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    padding: 10px;
+    border: 1px solid #00ff00;
+    display: inline-block;
+    opacity: 0.1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.hidden-hint:hover {
+    opacity: 1;
+}
+
+/* 💾 Nedladdningsknapp med hacker-animation */
 .download-btn {
     display: inline-block;
-    padding: 10px 20px;
-    margin-top: 15px;
-    background-color: #4CAF50;
-    color: white;
+    background: linear-gradient(90deg, #00ff00, #008000);
+    color: black;
     text-decoration: none;
+    padding: 12px 24px;
+    font-size: 1.2em;
+    font-weight: bold;
     border-radius: 5px;
+    box-shadow: 0 0 10px #00ff00;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
 }
 
 .download-btn:hover {
-    background-color: #45a049;
+    background: linear-gradient(90deg, #008000, #00ff00);
+    box-shadow: 0 0 20px #00ff00;
+    transform: scale(1.1);
+}
+
+/* 💻 Binärkod-rain-effekt */
+@keyframes codeRain {
+    0% { opacity: 0; transform: translateY(-20px); }
+    50% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(20px); }
+}
+.glitch {
+    font-size: 1.2em;
+    color: lime;
+    text-shadow: 0 0 5px #00ff00, 0 0 10px #008000;
+    animation: codeRain 3s infinite;
+}
+
+/* 🔥 Nyckel-ikon som blinkar */
+.key-icon {
+    font-size: 1.5em;
+    color: #00ff00;
+    animation: blink 1s infinite;
+}
+
+/* 🌟 Pulse-effekt för container */
+@keyframes pulseGlow {
+    from { box-shadow: 0 0 10px #00ff00; }
+    to { box-shadow: 0 0 20px #00ff00; }
+}
+
+/* 🔥 Glitch-effekt */
+@keyframes glitch {
+    0% { text-shadow: 3px 3px #00ff00; }
+    25% { text-shadow: -3px -3px #00ff00; }
+    50% { text-shadow: 5px 5px #00ff00; }
+    75% { text-shadow: -5px -5px #00ff00; }
+    100% { text-shadow: 3px 3px #00ff00; }
 }

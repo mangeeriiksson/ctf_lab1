@@ -46,4 +46,4 @@ def canopic_jar():
     return render_template("canopic_jar.html", result=result, hint=hint)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=6004, debug=True)

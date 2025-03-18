@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Expose the Flask port
-EXPOSE 5000
+EXPOSE 6001
 
 # Kör Flask korrekt i Docker och se till att debug fungerar
 CMD ["python", "-u", "app.py"]

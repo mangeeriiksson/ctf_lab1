@@ -8,7 +8,7 @@ def index():
 
 @app.route("/download")
 def download_file():
-    return send_file("secrets.enc", as_attachment=True)
+    return send_file("static/secrets.enc", as_attachment=True)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=6005, debug=True)

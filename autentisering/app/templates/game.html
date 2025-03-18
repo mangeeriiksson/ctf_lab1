@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Pharaoh’s Vault</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>The Pharaoh’s 2FA Curse</h1>
+        
+        <p>
+            You stand before the legendary vault of Ankhu-Ra.  
+            The air is thick with dust, and the walls are covered in ancient hieroglyphs  
+            warning of a curse upon those who attempt to break the seal.  
+        </p>
+
+        <p>
+            Before you, a panel of glowing symbols awaits your touch.  
+            The gods are watching… will you pass their test or be forever  
+            trapped in the tomb?
+        </p>
+
+        <h2>Step 1: The Pharaoh’s Forgotten Words</h2>
+        <p>A cryptic message has been hidden deep within the tomb’s ancient walls…</p>
+        <input type="text" id="password" placeholder="Enter the sacred phrase">
+
+        <h2>Step 2: The Pharaoh’s Final Trial</h2>
+        <p>The vault is sealed by an unknown force. Only the chosen may pass.</p>
+        <input type="text" id="2fa" placeholder="Enter the second seal">
+
+        <button onclick="submitFlag()">Unlock the Vault</button>
+        <p id="auth-result" class="result"></p>
+
+        <br><br>
+        <a href="/logout"><button>Escape the Tomb</button></a>
+    </div>
+
+    <script defer src="/static/js/script.js"></script>
+</body>
+</html>

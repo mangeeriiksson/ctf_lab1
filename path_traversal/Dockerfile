@@ -26,7 +26,7 @@ COPY --chown=flaskuser:flaskuser static/ /var/www/html/static/
 COPY --chown=flaskuser:flaskuser flags/ /var/www/html/flags/
 
 # Exponera Flask-porten
-EXPOSE 5000
+EXPOSE 6003
 
 # Starta Flask-applikationen
 CMD ["python", "app.py"]

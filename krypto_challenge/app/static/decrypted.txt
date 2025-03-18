@@ -1,1 +1,1 @@
-CTF{aes_decryption_success}
+O24{AES_Challenge_Success}

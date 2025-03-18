@@ -4,7 +4,7 @@ services:
     build: .
     container_name: insecure_deserialization
     ports:
-      - "5000:5000"
+      - "6004:6004"
     volumes:
       - ./flags:/app/flags
       - ./templates:/app/templates

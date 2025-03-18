@@ -5,7 +5,7 @@ services:
     build: .
     container_name: path_traversal
     ports:
-      - "5000:5000"
+      - "6003:6003"
     volumes:
       - ./static:/var/www/html/static
       - ./templates:/var/www/html/templates

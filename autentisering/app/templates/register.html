@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register – The Pharaoh’s Tomb</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📜 Become a Seeker</h1>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST">
+            <input type="text" name="username" placeholder="Choose your name" required>
+            <input type="password" name="password" placeholder="Create a secret phrase" required>
+            <button type="submit">Register</button>
+        </form>
+
+        <p>Already have an account? <a href="/login">Return to the tomb</a></p>
+    </div>
+</body>
+</html>

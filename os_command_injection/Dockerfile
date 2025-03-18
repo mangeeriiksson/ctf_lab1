@@ -27,7 +27,7 @@ RUN chown -R flaskuser:flaskuser /app
 USER flaskuser
 
 # Exponera Flask-porten
-EXPOSE 5001
+EXPOSE 6002
 
 # Starta Flask med Gunicorn för bättre prestanda
-CMD ["gunicorn", "--bind", "0.0.0.0:5001", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:6002", "app:app"]

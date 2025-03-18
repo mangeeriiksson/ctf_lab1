@@ -73,4 +73,4 @@ def papyrus():
         return render_template("papyrus.html", hint=f"❌ Error: {e}", flag=None)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=6003, debug=True)

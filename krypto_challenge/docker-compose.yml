@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  aes-ctf:
+    build: .
+    container_name: aes_ctf_challenge
+    ports:
+      - "6005:6005"
+    volumes:
+      - ./app:/app
+    environment:
+      - FLASK_APP=/app/server.py
+      - FLASK_ENV=production
+    restart: unless-stopped
