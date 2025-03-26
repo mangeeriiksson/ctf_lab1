@@ -36,7 +36,7 @@ def flag_file():
     content = (
         "📜 oracle-flag.txt\n"
         "------------------\n"
-        "o24{Or4cle_gr4ts_fl46}"
+        "o24{Or4cle_gr4ts_flA6}"
     )
     headers = {
         "Content-Disposition": "inline; filename=oracle-flag.txt"
