@@ -9,5 +9,5 @@ services:
 
   internal-api:
     build: ./internal-api
-    expose:
-      - "8000"
+    ports:
+      - "6008:8000"  # 👈 så oraklet når mål via http://127.0.0.1:6008

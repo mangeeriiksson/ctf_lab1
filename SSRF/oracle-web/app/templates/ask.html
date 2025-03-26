@@ -3,10 +3,21 @@
 {% block title %}The Oracle Responds{% endblock %}
 
 {% block content %}
-<div class="response-box">
+<div class="response-box text-center">
     <h2 class="mb-4">📜 The Oracle Responds:</h2>
-    <pre>{{ response_text }}</pre>
-    <p class="mt-4 fst-italic text-muted">“{{ quote }}”</p>
+
+    <pre class="text-start">{{ response_text }}</pre>
+
+    {% if quote %}
+        <p class="mt-4 fst-italic text-muted">“{{ quote }}”</p>
+    {% endif %}
+
+    {% if hint %}
+        <div class="alert alert-warning mt-4">
+            🧭 Hint: {{ hint }}
+        </div>
+    {% endif %}
+
     <a href="/" class="btn btn-link mt-3">⏪ Return to the Oracle</a>
 </div>
 {% endblock %}
