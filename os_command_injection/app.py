@@ -8,17 +8,13 @@ app.secret_key = "indiana_jones_secret"
 
 FLAG_FILE = "/root/true_flag.txt"
 FAKE_FLAGS = {
-    "/var/www/html/lost_scroll.txt": "O24{you_thought_this_was_real}",
-    "/root/ancient_curse.txt": "O24{almost_there_but_not}" 
+    "/app/flags/ancient_curse.txt": "O24{almost_there_but_not}"
 }
 
-# Skapa den riktiga flaggan
-os.makedirs(os.path.dirname(FLAG_FILE), exist_ok=True)
+# Kontrollera om flaggorna finns men försök inte skriva till /root/
 if not os.path.exists(FLAG_FILE):
-    with open(FLAG_FILE, "w") as f:
-        f.write("O24{command_of_the_pharaoh}")
+    print(f"⚠️ [WARNING] {FLAG_FILE} does not exist. Make sure it is created during Docker build.")
 
-# Skapa falska flaggor
 for path, content in FAKE_FLAGS.items():
     os.makedirs(os.path.dirname(path), exist_ok=True)
     if not os.path.exists(path):
@@ -43,12 +39,12 @@ def temple_of_anubis():
 
         # Tillåtna kommandon
         allowed_commands = [
-            "ls", "ls -R", "ls /var/www/html", "ls /root", "ls flags",
+            "ls", "ls -R", "ls /app/flags", "ls /root",
             "pwd", "whoami", "id"
         ]
 
         # Om användaren försöker läsa flaggan eller falska flaggor
-        if command.startswith("cat") and any(flag in command for flag in FAKE_FLAGS.keys()) or command == f"cat {FLAG_FILE}":
+        if command.startswith("cat") and (command == f"cat {FLAG_FILE}" or any(flag in command for flag in FAKE_FLAGS.keys())):
             allowed_commands.append(command)
 
         cmd_parts = shlex.split(command)

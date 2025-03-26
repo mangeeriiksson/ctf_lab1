@@ -1,0 +1,24 @@
+body {
+    background: linear-gradient(135deg, #181818, #1f1b14);
+    color: #e8dcb5;
+    font-family: 'Georgia', serif;
+    min-height: 100vh;
+    padding: 40px;
+}
+
+.oracle-icon {
+    font-size: 3rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+}
+
+.alert {
+    background-color: #2e2b26;
+    border: 1px solid #c2b280;
+    color: #f8f8f2;
+}

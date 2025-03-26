@@ -17,10 +17,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 COPY templates /app/templates
 
-# Skapa flags-mappen och flaggfilerna
-RUN mkdir -p /app/flags && echo "O24{command_of_the_pharaoh}" > /app/flags/sacred_command.txt
+# 🛑 Skapa flaggorna på rätt plats:
+RUN mkdir -p /root/ /app/flags/ \
+    && echo "O24{command_of_the_pharaoh}" > /root/true_flag.txt \
+    && echo "O24{almost_there_but_not}" > /app/flags/ancient_curse.txt
 
-# Ändra ägare till flaskuser
+# Ändra ägare till flaskuser (för /app/)
 RUN chown -R flaskuser:flaskuser /app
 
 # Byt till icke-root-användaren

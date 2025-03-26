@@ -1,0 +1,13 @@
+version: '3'
+services:
+  oracle-web:
+    build: ./oracle-web
+    ports:
+      - "8080:5000"
+    depends_on:
+      - internal-api
+
+  internal-api:
+    build: ./internal-api
+    expose:
+      - "8000"
