@@ -1,13 +1,22 @@
-version: '3'
+version: '3.8'
+
 services:
   oracle-web:
     build: ./oracle-web
     ports:
-      - "8080:5000"
+      - "8080:5000"  # Flask (Gunicorn) -> extern port 8080
     depends_on:
       - internal-api
+    networks:
+      - oracle-net
 
   internal-api:
     build: ./internal-api
     ports:
-      - "6008:8000"  # 👈 så oraklet når mål via http://127.0.0.1:6008
+      - "6008:8000"  # Debug-port för att testa direkt (kan tas bort innan CTF)
+    networks:
+      - oracle-net
+
+networks:
+  oracle-net:
+    driver: bridge

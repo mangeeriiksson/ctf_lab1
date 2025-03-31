@@ -7,13 +7,19 @@
     <div class="oracle-icon">𓂀</div>
     <h1 class="mt-3 mb-4">The Oracle of Thebes</h1>
     <p class="mb-4 fst-italic">Whisper your request to the ether... and the gods may answer.</p>
+
     <form method="get" action="/ask" onsubmit="showSpinner()" class="d-flex justify-content-center">
-        <input type="text" name="url" class="form-control me-2 w-75" placeholder="http://internal-api:8000" required>
+        <input type="text" name="url" class="form-control me-2 w-75" placeholder="http://172.20.0.3:8000" required>
         <button type="submit" class="btn btn-consult">Consult</button>
     </form>
-    <div class="spinner-border text-warning mt-4" role="status" id="loadingSpinner">
+
+    <div class="spinner-border text-warning mt-4" role="status" id="loadingSpinner" style="display: none;">
         <span class="visually-hidden">Consulting the Oracle...</span>
     </div>
+
+    {% if quote %}
+        <p class="oracle-quote">“{{ quote }}”</p>
+    {% endif %}
 
     {% if debug %}
     <div class="mt-5 text-start">
@@ -21,7 +27,7 @@
         <ul class="list-unstyled small">
             <li><a href="/ask?url=http://internal-api:8000/" class="link-warning">🧪 Test /</a></li>
             <li><a href="/ask?url=http://internal-api:8000/admin/" class="link-warning">🧪 Test /admin/</a></li>
-            <li><a href="/ask?url=http://internal-api:8000/admin/scrolls/73/prophecy" class="link-warning">🧪 Test FLAG</a></li>
+            <li><a href="/ask?url=http://internal-api:8000/admin/flag/oracle-flag.txt" class="link-warning">🧪 Test FLAG</a></li>
         </ul>
     </div>
     {% endif %}

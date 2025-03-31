@@ -6,18 +6,20 @@
 <div class="response-box text-center">
     <h2 class="mb-4">📜 The Oracle Responds:</h2>
 
-    <pre class="text-start">{{ response_text }}</pre>
+    <div class="oracle-scroll text-start">
+        {{ response_text }}
+    </div>
 
     {% if quote %}
-        <p class="mt-4 fst-italic text-muted">“{{ quote }}”</p>
+        <p class="oracle-quote">“{{ quote }}”</p>
     {% endif %}
 
     {% if hint %}
-        <div class="alert alert-warning mt-4">
-            🧭 Hint: {{ hint }}
+        <div class="oracle-hint">
+            🧭 <strong>Hint:</strong> {{ hint }}
         </div>
     {% endif %}
 
-    <a href="/" class="btn btn-link mt-3">⏪ Return to the Oracle</a>
+    <a href="/" class="btn btn-consult mt-4">⏪ Ask Again</a>
 </div>
 {% endblock %}
