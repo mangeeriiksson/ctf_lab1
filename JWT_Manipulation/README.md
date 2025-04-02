@@ -1,31 +1,31 @@
-🧾 JWT Manipulation – Become Admin
+# 🧾 JWT Manipulation – Psychic Signatures Edition (CVE-2022-21449 Inspired)
 
-🔄 Gör det direkt i jwt.io
+## 🎯 Mål
+Få åtkomst till `/admin` och avslöja den gömda flaggan genom att manipulera JWT-signaturen.
 
-Gå till jwt.io
+---
 
-Klistra in din JWT, t.ex.:
+## 🔐 Bakgrund
 
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ICJ1c2VyIiwgInJvbGUiOiAidXNlciIsICJleHAiOiAxNzQxOTYxOTYzfQ.p2egRol2RTzmjCgiAffOba1htqma-RfEJC0ZtZsQcE0
+Den här utmaningen simulerar en verklig JWT-sårbarhet som påverkade vissa versioner av Java (JDK 15–18).  
+I dessa versioner kunde en angripare skicka en JWT med en **ogiltig signatur** – där `r=0` och `s=0` i ECDSA – och servern **accepterade den ändå**.
 
-Ändra payload:
+Vi återskapar denna sårbarhet i Flask/Python för att du ska förstå riskerna med felaktig signaturverifiering.
 
-"role": "admin"
+---
 
-Scrolla ner till "Verify Signature"
+## 🧪 Steg-för-steg: Utnyttja sårbarheten
 
-Radera hemligheten
+### 1️⃣ Skapa JWT-token med `alg: ES256`
 
-Skriv istället: MAYCAQACAQA=
+Gå till 👉 [https://token.dev](https://token.dev)
 
-JWT:n blir nu signerad som admin – kopiera hela nya token.
+1. Välj algoritm: **ES256**
+2. Fyll i Payload:
 
-💻 Använd JWT i webbläsaren:
-
-Öppna DevTools → Console:
-
-document.cookie = "auth_token=DIN_NYA_JWT_HÄR; path=/";
-
-Gå till /admin
-
-🏁 Får du flaggan? Yes!
+```json
+{
+  "username": "admin",
+  "role": "admin",
+  "exp": 9999999999
+}

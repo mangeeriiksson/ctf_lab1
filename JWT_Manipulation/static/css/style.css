@@ -2,7 +2,7 @@ body {
     background-image: url("/static/images/temple.jpg");
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Ger en parallax-effekt vid scrollning */
+    background-attachment: fixed;
     font-family: 'Cinzel', serif;
     color: gold;
     text-align: center;
@@ -58,7 +58,7 @@ button:hover {
     box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
 }
 
-.login-message {
+.login-message, .message {
     font-size: 1.2em;
     color: lightgreen;
     margin-top: 15px;
@@ -79,6 +79,18 @@ button:hover {
     border-radius: 5px;
     margin-top: 15px;
     word-break: break-word;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.glow-pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0px lime; }
+    50% { box-shadow: 0 0 20px lime; }
+    100% { box-shadow: 0 0 0px lime; }
 }
 
 .warning {
@@ -89,4 +101,11 @@ button:hover {
     padding: 12px;
     border-radius: 5px;
     margin-top: 15px;
+}
+
+.hint {
+    margin-top: 20px;
+    font-style: italic;
+    color: #ffcc70;
+    font-size: 1em;
 }

@@ -36,6 +36,16 @@
             padding: 10px;
             border-radius: 5px;
             word-break: break-word;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+        .glow-pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 5px lime; }
+            50% { box-shadow: 0 0 20px lime; }
+            100% { box-shadow: 0 0 5px lime; }
         }
         .warning {
             font-size: 1.2em;
@@ -49,7 +59,23 @@
             color: limegreen;
             text-shadow: 0 0 10px lime;
         }
+        .hint {
+            margin-top: 15px;
+            font-style: italic;
+            color: #ffcc70;
+        }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const flag = document.querySelector(".flag");
+            if (flag) {
+                setTimeout(() => {
+                    flag.style.opacity = 1;
+                    flag.classList.add("glow-pulse");
+                }, 300);
+            }
+        });
+    </script>
 </head>
 <body>
     <h1>🔐 Pharaoh's Secret Chamber 🔐</h1>
@@ -58,9 +84,13 @@
             <h2 class="text-success">🏆 You have unlocked the hidden secrets of the Pharaoh! 🏆</h2>
             <p>Hieroglyphs glow around the chamber, revealing an ancient secret long forgotten...</p>
             <p class="flag">{{ flag }}</p>
+        {% elif message %}
+            <p class="warning">{{ message }}</p>
+            <p class="hint">🧙‍♂️ "Some scrolls are sealed too strongly. Others... not strongly enough."<br>
+                🔍 "Inspect the signature carefully. Not all that glitters is gold."
+            </p>
         {% else %}
-            <p class="warning">⚠️ The chamber remains sealed. Only the worthy may enter.</p>
-            <p>Perhaps there's another way to convince the spirits of your worthiness?</p>
+            <p class="warning">⚠️ Something mysterious has occurred. No message received.</p>
         {% endif %}
     </div>
 </body>

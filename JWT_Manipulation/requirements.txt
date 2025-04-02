@@ -1,2 +1,4 @@
-flask
-pyjwt
+Flask==2.2.5
+PyJWT==2.8.0
+cryptography==42.0.5
+waitress==2.1.2

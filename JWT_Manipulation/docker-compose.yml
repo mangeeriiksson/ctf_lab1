@@ -7,10 +7,9 @@ services:
     ports:
       - "6001:6001"
     volumes:
-      - ./:/app
+      - .:/app
+    working_dir: /app
     environment:
       FLASK_APP: app.py
       FLASK_ENV: development
-      FLASK_DEBUG: 1  # Enable debug mode for detailed logging
-      FLASK_RUN_HOST: 0.0.0.0  # Run Flask on all available interfaces
-      FLASK_RUN_PORT: 6001  # Explicitly set Flask's port
+      FLASK_DEBUG: 1
