@@ -126,12 +126,6 @@
                 <pre class="p-3 bg-dark text-success rounded">{{ content }}</pre>
             {% endif %}
 
-            <!-- 🏆 Om spelaren hittar flaggan -->
-            {% if flag %}
-                <h2 class="mt-4 text-success">🏆 You have uncovered a hidden truth!</h2>
-                <strong class="text-warning display-6">{{ flag }}</strong>
-            {% endif %}
-
             <!-- ❌ Felmeddelanden -->
             {% if error %}
                 <h2 class="mt-4 text-danger">❌ A Dark Curse Has Been Unleashed!</h2>

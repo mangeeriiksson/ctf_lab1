@@ -5,92 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pharaoh's Secret Chamber</title>
     <link rel="stylesheet" href="/static/css/style.css">
-    <style>
-        body {
-            background-image: url("/static/images/temple.jpg");
-            background-size: cover;
-            background-position: center;
-            font-family: 'Cinzel', serif;
-            color: gold;
-            text-align: center;
-            animation: fadeIn 2s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .container {
-            background: rgba(36, 24, 12, 0.9);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
-            border: 4px solid goldenrod;
-            max-width: 600px;
-            margin: 100px auto;
-        }
-        .flag {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: limegreen;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            border-radius: 5px;
-            word-break: break-word;
-            opacity: 0;
-            transition: opacity 2s ease-in-out;
-        }
-        .glow-pulse {
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 5px lime; }
-            50% { box-shadow: 0 0 20px lime; }
-            100% { box-shadow: 0 0 5px lime; }
-        }
-        .warning {
-            font-size: 1.2em;
-            font-style: italic;
-            color: darkred;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .text-success {
-            color: limegreen;
-            text-shadow: 0 0 10px lime;
-        }
-        .hint {
-            margin-top: 15px;
-            font-style: italic;
-            color: #ffcc70;
-        }
-    </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const flag = document.querySelector(".flag");
-            if (flag) {
-                setTimeout(() => {
-                    flag.style.opacity = 1;
-                    flag.classList.add("glow-pulse");
-                }, 300);
-            }
-        });
-    </script>
+    <link rel="icon" type="image/png" href="/static/images/favicon.png"> <!-- Favicon här -->
 </head>
 <body>
     <h1>🔐 Pharaoh's Secret Chamber 🔐</h1>
     <div class="container">
         {% if flag %}
-            <h2 class="text-success">🏆 You have unlocked the hidden secrets of the Pharaoh! 🏆</h2>
+            <h2>🏆 You have unlocked the hidden secrets of the Pharaoh! 🏆</h2>
             <p>Hieroglyphs glow around the chamber, revealing an ancient secret long forgotten...</p>
             <p class="flag">{{ flag }}</p>
         {% elif message %}
-            <p class="warning">{{ message }}</p>
-            <p class="hint">🧙‍♂️ "Some scrolls are sealed too strongly. Others... not strongly enough."<br>
-                🔍 "Inspect the signature carefully. Not all that glitters is gold."
-            </p>
+            <p>{{ message }}</p>
         {% else %}
-            <p class="warning">⚠️ Something mysterious has occurred. No message received.</p>
+            <p>⚠️ Something mysterious has occurred. No message received.</p>
         {% endif %}
     </div>
 </body>

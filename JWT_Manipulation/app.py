@@ -37,16 +37,17 @@ def remove_server_header(response):
     response.headers.pop("Server", None)
     return response
 
-def generate_token(username):
+def generate_token(username, role="user"):
+    # Skapa en ogiltig token med rollen som "user"
     payload = {
         "username": username,
-        "role": "user",
+        "role": role,  # Ursprunglig roll är user
         "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
     }
     token = jwt.encode(payload, PRIVATE_KEY, algorithm="ES256")
-    response = make_response(redirect(url_for("admin")))
-    response.set_cookie("auth_token", token, httponly=True, samesite="None", secure=True)
-    return response
+    
+    # Skicka tillbaka ogiltig token så att användaren kan manipulera den
+    return render_template("login.html", message=f"✅ Token generated for {username}. You can decode and modify it.", token=token)
 
 @app.route("/")
 def index():
@@ -57,6 +58,7 @@ def login():
     if request.method == "GET":
         return render_template("login.html")
 
+    # Skapa ogiltig token när användarnamn skickas
     username = request.form.get("username")
     if not username:
         return render_template("login.html", message="⚠️ Please enter a name!")
@@ -65,30 +67,19 @@ def login():
 
 @app.route("/admin")
 def admin():
+    # Hämta token från cookies
     token = request.cookies.get("auth_token")
+
+    # Om token inte finns, visa meddelande och neka åtkomst
     if not token:
         return render_template("admin.html", message="👁️ You are not ready to uncover the Pharaoh's secrets..."), 403
 
     try:
-        parts = token.split(".")
-        if len(parts) != 3:
-            raise jwt.InvalidTokenError("Malformed token")
+        # Här försöker vi dekoda tokenen och kolla om den har blivit modifierad till admin
+        decoded = jwt.decode(token, PUBLIC_KEY, algorithms=["ES256"])
 
-        header_b64, payload_b64, signature_b64 = parts
-        try:
-            signature_bytes = base64.urlsafe_b64decode(signature_b64 + '==')
-            r, s = decode_dss_signature(signature_bytes)
-            if r == 0 and s == 0:
-                decoded = jwt.decode(token, options={"verify_signature": False})
-                user_role = decoded.get("role", "unknown")
-            else:
-                decoded = jwt.decode(token, PUBLIC_KEY, algorithms=["ES256"])
-                user_role = decoded.get("role", "unknown")
-        except Exception:
-            decoded = jwt.decode(token, PUBLIC_KEY, algorithms=["ES256"])
-            user_role = decoded.get("role", "unknown")
-
-        if user_role == "admin":
+        # Om användaren är admin, ge tillgång till flaggan
+        if decoded.get("role") == "admin":
             with open(FLAG_FILE, "r") as f:
                 flag = f.read().strip()
             return render_template("admin.html", flag=flag)

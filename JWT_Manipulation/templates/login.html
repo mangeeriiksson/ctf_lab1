@@ -1,4 +1,3 @@
-<!-- LOGIN PAGE TEMPLATE -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,72 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login to the Pharaoh's Archives</title>
     <link rel="stylesheet" href="/static/css/style.css">
-    <style>
-        body {
-            background-image: url("/static/images/temple.jpg");
-            background-size: cover;
-            background-position: center;
-            font-family: 'Cinzel', serif;
-            color: gold;
-            text-align: center;
-            animation: fadeIn 2s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .container {
-            background: rgba(36, 24, 12, 0.9);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
-            border: 4px solid goldenrod;
-            max-width: 600px;
-            margin: 100px auto;
-        }
-        input {
-            margin-top: 10px;
-            padding: 12px;
-            font-size: 1.2em;
-            border-radius: 6px;
-            border: 2px solid goldenrod;
-            background-color: rgba(255, 255, 255, 0.9);
-            width: 80%;
-        }
-        input:focus {
-            outline: none;
-            border-color: gold;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
-        }
-        .glowing-button {
-            margin-top: 15px;
-            padding: 12px 25px;
-            font-size: 1.2em;
-            font-weight: bold;
-            border-radius: 8px;
-            background: goldenrod;
-            color: black;
-            border: 2px solid gold;
-            box-shadow: 0 0 15px rgba(255, 223, 0, 0.8);
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-        }
-        .glowing-button:hover {
-            background: gold;
-            box-shadow: 0 0 25px rgba(255, 223, 0, 1);
-        }
-        .message {
-            margin-top: 20px;
-            font-style: italic;
-            color: lightgreen;
-            font-size: 1.2em;
-        }
-        .hint {
-            margin-top: 30px;
-            font-style: italic;
-            color: #f0e68c;
-        }
-    </style>
+    <link rel="icon" type="image/png" href="/static/images/favicon.png">
 </head>
 <body>
     <h1>🔐 The Pharaoh's Gate 🔐</h1>
@@ -87,25 +21,14 @@
             <p class="message">{{ message }}</p>
         {% endif %}
 
-        <p class="hint">📜 "Tokens are sacred, but not all seals are as strong as they appear..."</p>
+        {% if token %}
+            <script>
+                // Logga tokenen i webbläsarens konsol
+                console.log("Your JWT token: ", "{{ token }}");
+            </script>
+        {% endif %}
+
+        <p>📜 "Tokens are sacred, but not all seals are as strong as they appear..."</p>
     </div>
-
-    <script>
-        window.addEventListener("DOMContentLoaded", () => {
-            const match = document.cookie.match(/auth_token=([^;]+)/);
-            if (match) {
-                console.log("JWT Token:", match[1]);
-
-                try {
-                    const payload = JSON.parse(atob(match[1].split('.')[1]));
-                    console.log("Decoded JWT Payload:", payload);
-                } catch (e) {
-                    console.error("Could not decode token:", e);
-                }
-            } else {
-                console.log("No token found in cookies.");
-            }
-        });
-    </script>
 </body>
 </html>

@@ -4,5 +4,5 @@ services:
   flask_app:
     build: .
     ports:
-      - "6000:6000"
+      - "6006:6006"
     restart: unless-stopped

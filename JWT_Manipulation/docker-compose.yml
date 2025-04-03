@@ -5,11 +5,12 @@ services:
     build: .
     container_name: psychic_signatures_ctf
     ports:
-      - "6001:6001"
+      - "6001:6001"  # Exponera Flask-porten på din lokala maskin
     volumes:
-      - .:/app
+      - .:/app  # Volym för att synkronisera koden mellan din lokala maskin och containern
     working_dir: /app
     environment:
-      FLASK_APP: app.py
-      FLASK_ENV: development
-      FLASK_DEBUG: 1
+      - FLASK_APP=app.py  # Flask applikationsfil
+      - FLASK_DEBUG=0  # För produktionsläge
+    command: ["python", "-m", "waitress", "--port=6001", "--host=0.0.0.0", "app:app"]  # Starta Flask med waitress i produktionsläge
+    restart: always  # Återstarta containern om den kraschar
